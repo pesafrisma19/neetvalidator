@@ -1,39 +1,27 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>Neet Validator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <title>Neet Validator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-6">
+<body class="p-6 bg-gray-100">
 
-<div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+  <h1 class="text-2xl font-bold mb-4">Pilih Game</h1>
 
-    <h1 class="text-2xl font-bold mb-4">Neet Game Validator</h1>
+  <!-- LIST GAME -->
+  <div id="games-container" class="flex gap-3 mb-6"></div>
 
-    <!-- TAB GAME -->
-    <div class="mb-4 relative">
-    <button id="game-dropdown-btn"
-        class="w-full border p-3 rounded flex justify-between items-center bg-white">
-        <span id="selected-game-text">Pilih Game</span>
-        <span>▼</span>
-    </button>
+  <!-- FORM -->
+  <form id="check-form" class="space-y-3 hidden">
+    <input id="gameId" class="border p-2 w-full" placeholder="User ID">
+    <input id="serverRegion" class="border p-2 w-full" placeholder="Server ID">
+    <button class="bg-blue-600 text-white px-4 py-2">Cek</button>
+  </form>
 
-    <div id="game-dropdown"
-        class="absolute z-10 w-full bg-white border rounded mt-1 max-h-48 overflow-y-auto hidden">
-    </div>
+  <pre id="result" class="mt-4 bg-white p-3"></pre>
 
-
-
-
-
-    <!-- FORM GAME -->
-    <div id="game-content"></div>
-
-</div>
-
-<script src="assets/js/main.js"></script>
+  <!-- ⚠️ WAJIB type="module" -->
+  <script type="module" src="assets/js/main.js"></script>
 </body>
 </html>
-
-
