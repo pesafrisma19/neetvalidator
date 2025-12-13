@@ -1,36 +1,49 @@
 const games = [
-    { id: 'mlbb', name: 'Mobile Legends', file: 'mlbb.js' }
+    { id: 'mlbb', name: 'Mobile Legends', file: 'mlbb.js' },
+    { id: 'ff', name: 'Free Fire', file: 'ff.js' },
+    { id: 'pubgm', name: 'PUBG Mobile', file: 'pubgm.js' },
 ];
 
-const container = document.getElementById('games-container');
+const dropdownBtn = document.getElementById('game-dropdown-btn');
+const dropdown = document.getElementById('game-dropdown');
+const selectedText = document.getElementById('selected-game-text');
 
 function loadGame(game) {
-    // hapus script lama
     document.querySelectorAll('.game-script').forEach(s => s.remove());
 
-    // load script baru
+    document.getElementById('game-content').innerHTML =
+        `<div class="text-gray-500">Memuat ${game.name}...</div>`;
+
     const script = document.createElement('script');
     script.src = `assets/js/games/${game.file}`;
     script.className = 'game-script';
     document.body.appendChild(script);
 }
 
-// render tab
+// toggle dropdown
+dropdownBtn.onclick = () => {
+    dropdown.classList.toggle('hidden');
+};
+
+// render list game
 games.forEach(game => {
-    const btn = document.createElement('button');
-    btn.textContent = game.name;
-    btn.className = 'px-3 py-2 border-b-2 border-transparent hover:border-indigo-500';
+    const item = document.createElement('div');
+    item.className =
+        'px-4 py-2 cursor-pointer hover:bg-indigo-100';
+    item.textContent = game.name;
 
-    btn.onclick = () => {
-        document.querySelectorAll('#games-container button')
-            .forEach(b => b.classList.remove('border-indigo-500'));
-
-        btn.classList.add('border-indigo-500');
+    item.onclick = () => {
+        selectedText.textContent = game.name;
+        dropdown.classList.add('hidden');
         loadGame(game);
     };
 
-    container.appendChild(btn);
+    dropdown.appendChild(item);
 });
 
-// auto load MLBB
-loadGame(games[0]);
+// klik di luar dropdown → tutup
+document.addEventListener('click', (e) => {
+    if (!dropdownBtn.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.add('hidden');
+    }
+});
