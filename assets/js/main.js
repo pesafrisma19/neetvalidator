@@ -1,15 +1,22 @@
-import { checkMLBB } from './games/mlbb.js';
+document.addEventListener('DOMContentLoaded', () => {
+  const games = [
+    { id: 'mlbb', name: 'Mobile Legends' },
+    { id: 'ff', name: 'Free Fire' }
+  ];
 
-document
-  .getElementById('check-form')
-  .addEventListener('submit', async (e) => {
-    e.preventDefault();
+  const container = document.getElementById('games-container');
+  const form = document.getElementById('check-form');
 
-    const id = document.getElementById('gameId').value;
-    const server = document.getElementById('serverRegion').value;
+  games.forEach(game => {
+    const btn = document.createElement('button');
+    btn.textContent = game.name;
+    btn.className = 'px-4 py-2 bg-gray-300 rounded';
 
-    const result = await checkMLBB(id, server);
+    btn.onclick = () => {
+      alert('Pilih game: ' + game.id);
+      form.classList.remove('hidden');
+    };
 
-    console.log(result);
-    // tampilkan ke UI
+    container.appendChild(btn);
   });
+});
