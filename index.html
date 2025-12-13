@@ -12,7 +12,20 @@
     <h1 class="text-2xl font-bold mb-4">Neet Game Validator</h1>
 
     <!-- TAB GAME -->
-    <div id="games-container" class="flex gap-3 border-b mb-6"></div>
+    <div class="mb-4 relative">
+    <button id="game-dropdown-btn"
+        class="w-full border p-3 rounded flex justify-between items-center bg-white">
+        <span id="selected-game-text">Pilih Game</span>
+        <span>▼</span>
+    </button>
+
+    <div id="game-dropdown"
+        class="absolute z-10 w-full bg-white border rounded mt-1 max-h-48 overflow-y-auto hidden">
+    </div>
+</div>
+
+
+
 
     <!-- FORM GAME -->
     <div id="game-content"></div>
@@ -22,3 +35,4 @@
 <script src="assets/js/main.js"></script>
 </body>
 </html>
+
