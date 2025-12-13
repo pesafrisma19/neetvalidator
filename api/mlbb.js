@@ -1,11 +1,10 @@
 <?php
 header('Content-Type: application/json');
 
-// ===== INPUT DARI WEBSITE =====
-$userId   = $_GET['user_id']   ?? null;
-$serverId = $_GET['server_id'] ?? null;
+$id   = $_GET['user_id']   ?? null;
+$zone = $_GET['server_id'] ?? null;
 
-if (!$userId || !$serverId) {
+if (!$id || !$zone) {
     echo json_encode([
         'success' => false,
         'message' => 'User ID dan Server ID wajib diisi'
@@ -13,36 +12,33 @@ if (!$userId || !$serverId) {
     exit;
 }
 
-// ===== DATA MOBAPAY =====
-$postData = http_build_query([
+$url = 'https://api.mobapay.com/api/app_shop?' . http_build_query([
     'app_id'          => '100000',
-    'game_user_key'   => $userId,
-    'game_server_key' => $serverId,
+    'game_user_key'   => $id,
+    'game_server_key' => $zone,
     'country'         => 'ID',
-    'language'        => 'en',
-    'network'         => 'net'
+    'language'        => 'en'
 ]);
 
-$ch = curl_init();
+$ch = curl_init($url);
 curl_setopt_array($ch, [
-    CURLOPT_URL            => 'https://www.mobapay.com/api/game/check', // SESUAI REQUEST KAMU
-    CURLOPT_POST           => true,
-    CURLOPT_POSTFIELDS     => $postData,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_TIMEOUT        => 15,
     CURLOPT_HTTPHEADER     => [
-        'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+        'User-Agent: Mozilla/5.0',
         'Accept: application/json',
-        'Referer: https://www.mobapay.com/mlbb/?r=ID'
+        'x-lang: en',
+        'Origin: https://www.mobapay.com',
+        'Referer: https://www.mobapay.com/'
     ]
 ]);
 
 $response = curl_exec($ch);
 
-if (curl_errno($ch)) {
+if ($response === false) {
     echo json_encode([
         'success' => false,
-        'message' => 'Gagal koneksi ke Mobapay'
+        'message' => 'Gagal menghubungi server Mobapay'
     ]);
     curl_close($ch);
     exit;
@@ -50,12 +46,14 @@ if (curl_errno($ch)) {
 
 curl_close($ch);
 
-// ===== PARSE RESPONSE =====
 $data = json_decode($response, true);
 
+// === VALIDASI SESUAI NODEJS KAMU ===
 if (
-    !isset($data['user_info']) ||
-    $data['user_info']['code'] != 0
+    !isset($data['code']) ||
+    $data['code'] != 0 ||
+    !isset($data['data']['user_info']) ||
+    $data['data']['user_info']['code'] != 0
 ) {
     echo json_encode([
         'success' => false,
@@ -64,8 +62,8 @@ if (
     exit;
 }
 
-// ===== SUCCESS =====
+// === HASIL ===
 echo json_encode([
     'success'  => true,
-    'nickname' => $data['user_info']['user_name']
+    'nickname' => $data['data']['user_info']['user_name']
 ]);
