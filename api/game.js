@@ -17,6 +17,12 @@ export default function handler(request, response) {
       "endpoint": "/api/game/mobile-legends",
       "hasZoneId": true,
       "listZoneId": null
+    },
+    {
+      "name": "Mogic Chess Go Go",
+      "endpoint": "/api/game/magic-chess-go-go",
+      "hasZoneId": true,
+      "listZoneId": null
     }
   ];
   
