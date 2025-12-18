@@ -1,4 +1,4 @@
-// File: /api/game/magic-chess-go-go.js
+// File: /api/game/magic-chess.js
 // Validasi untuk game "Magic Chess: Go Go"
 
 export default async function handler(req, res) {
