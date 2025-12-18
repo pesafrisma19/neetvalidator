@@ -2,7 +2,7 @@ export default function handler(request, response) {
   const gameList = [
     {
       "name": "Super Sus",
-      "endpoint": "/api/game/supersus",
+      "endpoint": "/api/game/super-sus",
       "hasZoneId": false,
       "listZoneId": null
     },
