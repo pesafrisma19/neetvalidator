@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/game/*.js": {
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
+    { "source": "/api/game/:game", "destination": "/api/game/:game.js" }
+  ]
+}
