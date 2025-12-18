@@ -1,1109 +1,170 @@
-<html lang="id" dir="ltr"><head>
+<!DOCTYPE html>
+<html lang="id">
+<head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEET Validator - Validasi ID Game dan Zona</title>
-    <meta name="description" content="ID Game Validator adalah website untuk memvalidasi ID game dan zona pada berbagai platform game.">
-    <meta name="keywords" content="game, validator, ID game, ID zona, cek ID game, validasi game">
-    <meta name="author" content="Okki Dwi Drive">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://neetvalidator.vercel.app">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="../assets/favicon/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="../assets/favicon/favicon.svg">
-    <link rel="shortcut icon" href="../assets/favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
-    <meta name="apple-mobile-web-app-title" content="NEET Validator">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://neetvalidator.vercel.app">
-    <meta property="og:title" content="NEET Validator">
-    <meta property="og:description" content="ID Game Validator adalah website untuk memvalidasi ID game dan zona pada berbagai platform game.">
-    <meta property="og:image" content="https://neetvalidator.vercel.app/path/to/og-image.png">
-
-    <!-- Twitter / X -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://neetvalidator.vercel.app">
-    <meta property="twitter:title" content="NEET Validator">
-    <meta property="twitter:description" content="NEET Validator website alat untuk memvalidasi ID game dan zona pada berbagai platform game.">
-    <meta property="twitter:image" content="https://neetvalidator.vercel.app/path/to/twitter-image.png">
-
-    <!-- Manifest -->
-    <link rel="manifest" href="../assets/manifest/site.webmanifest">
-
-    <!-- Schema Markup -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Website",
-        "url": "https://neetvalidator.vercel.app/",
-        "name": "NEET Validator",
-        "description": "NEET Validator adalah website untuk memvalidasi ID game dan zona pada berbagai platform game.",
-        "author": {
-            "@type": "Person",
-            "name": "NEET Validator"
-        }
-    }
-    </script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <title>NEET Validator</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-        /* General Colors */
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        :root {
-            --primary-color: #4CAF50;
-            --primary-color-dark: #388E3C;
-            --primary-color-light: #C8E6C9;
-            --accent-color: #FFC107;
-            --text-color: #212121;
-            --text-color-light: #757575;
-            --background-color: #F5F5F5;
-            --surface-color: #FFFFFF;
-            --error-color: #B00020;
-            --on-primary-color: #FFFFFF;
-            --on-accent-color: #212121;
-            --on-background-color: #212121;
-            --on-surface-color: #212121;
-            --on-error-color: #FFFFFF;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --outline-color: #E0E0E0;
-
-            /* Dark Mode Colors */
-            --dark-primary-color: #66BB6A;
-            --dark-primary-color-light: #A5D6A7;
-            --dark-background-color: #121212;
-            --dark-surface-color: #212121;
-            --dark-text-color: #E0E0E0;
-            --dark-text-color-light: #BDBDBD;
-            --dark-on-primary-color: #212121;
-            --dark-on-surface-color: #E0E0E0;
-            --dark-shadow-color: rgba(255, 255, 255, 0.1);
-            --dark-outline-color: #424242;
-            --dark-button-text-color: #FFFFFF;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            transition: background-color 0.3s ease;
-            overflow-x: hidden;
-        }
-
-        img { pointer-events: none; }
-        .copy-btn, .account span, .account label, .access-code-input { pointer-events: auto; }
-
-        /* Dark Mode Roots */
-        body[data-theme="dark"] {
-            background-color: var(--dark-background-color);
-            color: var(--dark-text-color);
-            --primary-color: var(--dark-primary-color);
-            --primary-color-light: var(--dark-primary-color-light);
-            --text-color: var(--dark-text-color);
-            --text-color-light: var(--dark-text-color-light);
-            --surface-color: var(--dark-surface-color);
-            --on-primary-color: var(--dark-on-primary-color);
-            --on-surface-color: var(--dark-on-surface-color);
-            --shadow-color: var(--dark-shadow-color);
-            --outline-color: var(--dark-outline-color);
-        }
-
-        body[data-theme="dark"] .footer, body[data-theme="dark"] .footer a { color: #ccc; }
-        body[data-theme="dark"] .header-button { background-color: var(--dark-surface-color); color: var(--dark-text-color-light); }
-        body[data-theme="dark"] .header-button:hover { background-color: #4CAF50; color: var(--dark-text-color); }
-        body[data-theme="dark"] .header-button .material-icons { color: var(--dark-text-color-light); }
-        body[data-theme="dark"] .header-button:hover .material-icons { color: var(--dark-text-color); }
-        body[data-theme="dark"] .submit-btn {color: var(--dark-button-text-color); }
-
-        /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .loading-spinner {
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #4CAF50;
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            animation: spin 1s linear infinite;
-            margin-right: 8px;
-            display: inline-block;
-            vertical-align: -2.5px;
-        }
-
-        /* Header */
-        .header {
-            background-color: var(--surface-color);
-            color: var(--on-surface-color);
-            padding: 12px 20px;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px var(--shadow-color);
-            z-index: 100;
-        }
-
-        .logo-title { display: flex; align-items: center; }
-        .logo-title img { height: 36px; margin-right: 10px; border-radius: 10px; padding-left: 25px; }
-        .logo-title span { font-size: 22px; font-weight: 600; color: #4CAF50; }
-        .header-buttons { display: flex; align-items: center; }
-        .header-buttons a { text-decoration: none; display: inline-flex; align-items: center; margin-left: 2px; }
-        .header-button {
-            background-color: transparent;
-            color: var(--text-color-light);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 500;
-            transition: background-color 0.3s, color 0.3s;
-            line-height: 20px;
-        }
-
-        .header-button:first-of-type { margin-left: 0; }
-        .header-button:hover { background-color: var(--primary-color-light); color: #4CAF50; }
-        .header-button .material-icons { margin-right: 6px; font-size: 20px; }
-        .pill { background-color: var(--primary-color-light); padding: 0.5px 10px; border-radius: 20px; display: inline-block; }
-        body[data-theme="dark"] .pill { background-color: #4CAF50; color: #E0E0E0; }
-        .toggle-container { display: flex; align-items: center; margin-right: 20px; margin-left: 15px; }
-        .toggle-container .mode_icon:last-child { margin-left: 7px; }
-        .material-icons { color: var(--text-color-light); font-size: 18px; }
-        .material-icons.mode_icon{ margin-right: 6px; }
-        .toggle-switch { position: relative; display: inline-block; width: 36px; height: 20px; }
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 2px;
-            bottom: 2px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider { background-color: #4CAF50; }
-        input:checked + .slider:before { transform: translateX(16px); }
-
-        /* Footer */
-        .footer {
-            background-color: var(--surface-color);
-            color: var(--text-color-light);
-            padding: 12px 20px;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 -2px 4px var(--shadow-color);
-            font-size: 15px;
-            margin-top: auto;
-        }
-        .footer a { color: var(--text-color-light); text-decoration: none; font-weight: 500; margin-left: 16px; }
-        .footer a:hover { text-decoration: underline; }
-        .footer-left { display: flex; align-items: center; font-size: 15px; font-weight: 500; margin-right: auto; padding-left: 20px; }
-        .footer-left img { height: 22px; margin-left: 5px; }
-        .footer-right { display: flex; align-items: center; font-weight: 500; margin-left: auto; padding-right: 20px; }
-        .footer-right img { height: 26px; margin-left: 5px; }
-        .footer-right span { margin-right: 16px; font-size: 15px; }
-
-        /* Media Queries */
-        @media (max-width: 600px) {
-            .header-button { font-size: 13px; padding: 8px; }
-            .logo-title img { height: 32px; }
-            .logo-title span { font-size: 19px; }
-            .header-button .material-icons { margin-right: 2px; font-size: 19px; }
-            .material-icons.mode_icon{ margin-right: 4px; }
-            .form-group select { padding: 10px; font-size: 13px; }
-            .form-group .select-wrapper::after { font-size: 10px; right: 10px; }
-        }
-
-        @media (max-width: 460px) {
-            .header { flex-direction: column; padding: 12px; align-items: center; }
-            .header-buttons { margin-top: 10px; }
-            .toggle-container { margin-left: 5px; }
-            .logo-title span { font-size: 17px; }
-        }
-
-        @media (max-width: 370px) {
-            .header-button { font-size: 11px; padding: 5px; margin-left: 5px; }
-            .toggle-container { margin-left: 0px; }
-            .material-icons { font-size: 17px; margin-right: 2px; }
-            .logo-title img { height: 28px; margin-right: 5px; }
-            .logo-title span { font-size: 15px; }
-            .header-button .material-icons { font-size: 17px; }
-        }
-
-        /* ID Game Validator */
-        .container {
-            background-color: var(--surface-color);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 2px 8px var(--shadow-color);
-            animation: fadeIn 0.5s ease-out;
-            text-align: center;
-            margin-top: auto;
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 800px;
-        }
-
-        .container h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            color: var(--text-color);
-        }
-
-        .container > p {
-             font-size: 16px;
-             font-weight: 600;
-             color: var(--text-color-light);
-             margin-bottom: 20px;
-             line-height: 1.5;
-        }
-
-        .container > p > .material-icons {
-            vertical-align: middle;
-            line-height: 1.5;
-        }
-
-        .container > p > .material-icons:nth-child(2) {
-            line-height: 2.5;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            color: var(--text-color);
-            margin-bottom: 8px;
-            display: block;
-            font-size: 16px;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--outline-color);
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-color);
-            background-color: var(--surface-color);
-            outline: none;
-            appearance: none;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 2px 4px var(--shadow-color);
-        }
-
-        .form-group input:hover,
-        .form-group select:hover {
-            border-color: var(--primary-color);
-            box-shadow: 0 2px 4px var(--shadow-color);
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 2px 4px var(--shadow-color), 0 0 0 2px var(--primary-color-light);
-        }
-
-        .form-group select {
-            cursor: pointer;
-        }
-
-        .form-group .select-wrapper {
-            position: relative;
-        }
-
-        .form-group .select-wrapper::after {
-            content: "▼";
-            font-size: 12px;
-            color: var(--text-color-light);
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-            transition: color 0.3s ease;
-        }
-
-        .form-group select option {
-            padding: 12px;
-            background-color: var(--surface-color);
-            color: var(--text-color);
-            transition: background-color 0.3s ease;
-        }
-
-        .form-group select option:hover {
-            background-color: var(--primary-color-light);
-        }
-
-        .submit-btn {
-            background-color: #4CAF50;
-            color: var(--on-primary-color);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 4px var(--shadow-color);
-            margin-top: 10px;
-        }
-
-        .submit-btn:hover {
-            background-color: var(--primary-color-dark);
-            box-shadow: 0 2px 4px var(--shadow-color);
-            transform: translateY(-2px);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px var(--shadow-color);
-        }
-
-        .card {
-            background-color: var(--surface-color);
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            margin-top: 20px;
-            animation: fadeIn 0.5s ease-out;
-            border: 2px solid var(--primary-color);
-            transition: all 0.3s ease;
-            display: none;
-            text-align: center;
-        }
-
-        .card.show {
-            display: block;
-        }
-
-        .card h3 {
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--text-color);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .card h3 i {
-            font-size: 22px;
-            color: var(--primary-color);
-        }
-
-        .card p {
-            font-size: 16px;
-            color: var(--text-color-light);
-            margin-bottom: 16px;
-            line-height: 1.5;
-            text-align: center;
-        }
-
-        .card p span {
-            font-weight: 500;
-            color: var(--text-color);
-        }
-
-        .select-wrapper {
-            position: relative;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        #game-dropdown,
-        #zone-dropdown {
-            width: 100%;
-            border: 1px solid var(--outline-color);
-            border-radius: 8px;
-            background-color: var(--surface-color);
-            color: var(--text-color);
-            font-size: 14px;
-            font-weight: 500;
-            padding: 8px;
-            margin-top: 8px;
-            display: none;
-            position: absolute;
-            z-index: 1000;
-            max-height: 200px;
-            overflow-y: auto;
-            box-shadow: 0 2px 8px var(--shadow-color);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        #game-dropdown div,
-        #zone-dropdown div {
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        #game-dropdown div:hover,
-        #zone-dropdown div:hover {
-            background-color: var(--primary-color-light);
-            color: var(--text-color);
-        }
-
-        #game-search,
-        #zone-search {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--outline-color);
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-color);
-            background-color: var(--surface-color);
-            outline: none;
-            box-shadow: 0 2px 4px var(--shadow-color);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        #game-search:focus,
-        #zone-search:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 2px 8px var(--shadow-color), 0 0 0 2px var(--primary-color-light);
-        }
-
-        #game-search:hover,
-        #zone-search:hover {
-            border-color: var(--primary-color);
-            box-shadow: 0 2px 8px var(--shadow-color);
-        }
-
-        .input-container {
-            position: relative;
-            width: 100%;
-        }
-
-        .clear-btn {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-color-light);
-            font-size: 20px;
-            padding: 0;
-            display: none;
-            pointer-events: auto;
-        }
-
-        .clear-btn:hover {
-            color: var(--text-color);
-        }
-
-        .game-search-clear-btn,
-        .zone-search-clear-btn {
-            position: absolute;
-            right: 34px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-color-light);
-            font-size: 20px;
-            padding: 0;
-            display: none;
-            pointer-events: auto;
-            z-index: 1001;
-        }
-
-        .game-search-clear-btn:hover,
-        .zone-search-clear-btn:hover {
-            color: var(--text-color);
-        }
-
-        #game-search:not(:placeholder-shown) + .game-search-clear-btn,
-        #game-search:focus + .game-search-clear-btn,
-        #zone-search:not(:placeholder-shown) + .zone-search-clear-btn,
-        #zone-search:focus + .zone-search-clear-btn {
-            display: block;
-        }
-
-        .form-group input:not(:placeholder-shown) + .clear-btn,
-        .form-group input:focus + .clear-btn {
-            display: block;
-        }
-
-        /* Dark Mode */
-        body[data-theme="dark"] .form-group select,
-        body[data-theme="dark"] .form-group input {
-            background-color: var(--dark-surface-color);
-            color: var(--dark-text-color);
-            border-color: var(--dark-outline-color);
-        }
-
-        body[data-theme="dark"] .form-group select:hover,
-        body[data-theme="dark"] .form-group input:hover {
-            border-color: var(--dark-primary-color);
-        }
-
-        body[data-theme="dark"] .form-group select:focus,
-        body[data-theme="dark"] .form-group input:focus {
-            border-color: var(--dark-primary-color);
-            box-shadow: 0 2px 4px var(--dark-shadow-color), 0 0 0 2px var(--dark-primary-color-light);
-        }
-
-        body[data-theme="dark"] .card {
-            border-color: var(--dark-primary-color);
-        }
-
-        body[data-theme="dark"] .card h3 i {
-            color: var(--dark-primary-color);
-        }
-
-        body[data-theme="dark"] .card p span {
-            color: var(--dark-text-color);
-        }
-
-        body[data-theme="dark"] .back-btn {
-            color: var(--dark-button-text-color);
-        }
-
-        .card.success {
-            border-color: #4CAF50;
-        }
-
-        .card.error {
-            border-color: var(--error-color);
-        }
-
-        .card.error h3 i {
-            color: var(--error-color);
-        }
-
-        body[data-theme="dark"] #game-dropdown,
-        body[data-theme="dark"] #game-search,
-        body[data-theme="dark"] #zone-dropdown,
-        body[data-theme="dark"] #zone-search {
-            background-color: var(--dark-surface-color);
-            color: var(--dark-text-color);
-            border-color: var(--dark-outline-color);
-        }
-
-        body[data-theme="dark"] #game-dropdown div,
-        body[data-theme="dark"] #zone-dropdown div {
-            background-color: var(--dark-surface-color);
-            color: var(--dark-text-color);
-        }
-
-        body[data-theme="dark"] #zone-dropdown div:hover,
-        body[data-theme="dark"] #game-dropdown div:hover {
-            background-color: #4CAF50;
-            color: var(--dark-text-color);
-        }
-
-        body[data-theme="dark"] #game-search:focus,
-        body[data-theme="dark"] #zone-search:focus {
-            border-color: var(--dark-primary-color);
-            box-shadow: 0 2px 8px var(--dark-shadow-color), 0 0 0 2px var(--dark-primary-color-light);
-        }
-
-        body[data-theme="dark"] #game-search:hover,
-        body[data-theme="dark"] #zone-search:hover {
-            border-color: var(--dark-primary-color);
-            box-shadow: 0 2px 8px var(--dark-shadow-color);
-        }
-
-       .submit-btn.opacity-50 {
-            opacity: 0.5;
-        }
-
-       .submit-btn.cursor-not-allowed {
-            cursor: not-allowed;
-        }
-
-       .form-container {
-            transition: all 0.3s ease;
-        }
-
-       .form-container.hidden {
-            display: none;
-        }
-
-       .back-btn {
-            background-color: #4CAF50;
-            color: var(--on-primary-color);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px var(--shadow-color);
-            margin-top: 10px;
-            display: inline-block;
-        }
-
-       .back-btn:hover {
-            background-color: var(--primary-color-dark);
-            box-shadow: 0 4px 8px var(--shadow-color);
-            transform: translateY(-2px);
-        }
-
-       .back-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px var(--shadow-color);
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body data-theme="light">
-    <div class="header">
-        <div class="logo-title">
-            <a href="https://neetvalidator.vercel.app" style="text-decoration: none; display: flex; align-items: center;">
-                <img src="https://raw.githubusercontent.com/okkidwi/okki-dwi-drive-index/master/images/logo-okki-dwi-drive.png" alt="Logo">
-                <span style="font-family: 'Poppins', sans-serif;">NEET<span class="pill" style="border-radius: 8px;">Validator</span></span>
-            </a>
-        </div>
-        <div class="header-buttons">
-            <a href="https://neetstore.id" target="_blank" class="header-button" aria-label="neetstore">
-                    <i class="material-icons">language</i>
-                <span>NEETstore</span>
-            </a>
-            <a href="https://www.facebook.com/share/p/1A5fYsaRQH" target="_blank" class="header-button" aria-label="Lapor Bug">
-                    <i class="material-icons">bug_report</i>
-                <span>Lapor Bug</span>
-            </a>
-            <div class="toggle-container">
-                <i class="material-icons mode_icon">bedtime</i>
-                <label class="toggle-switch">
-                <input type="checkbox" id="darkModeToggle">
-                    <span class="slider round"></span>
-                </label>
-                <i class="material-icons mode_icon">light_mode</i>
-            </div>
-        </div>
-    </div>
-
     <div class="container">
         <h1>NEET Validator</h1>
-        <p>
-            <i class="material-icons">event</i> Update 27-03-2025 &nbsp;&nbsp;|&nbsp;
-            <i class="material-icons">update</i> v1.6
-        </p>
+        <p><i class="material-icons">update</i> Simple Version</p>
 
         <div class="form-container" id="formContainer">
             <form id="validatorForm">
                 <div class="form-group">
-                    <label for="game">Cari Game</label>
-                    <div class="select-wrapper">
-                        <input type="text" id="game-search" placeholder="Pilih atau ketik untuk mencari Game" autocomplete="off">
-                        <button type="button" class="game-search-clear-btn" onclick="clearGameSearch()">×</button>
-                        <div id="game-dropdown" class="dropdown"><div data-endpoint="/api/game/8-ball-pool" data-iszone="false" data-listzone="null">8 Ball Pool</div><div data-endpoint="/api/game/afk-journey" data-iszone="false" data-listzone="null">AFK Journey</div><div data-endpoint="/api/game/astra-knights-of-veda" data-iszone="true" data-listzone="/api/game/get-zone/astra-knights-of-veda">ASTRA: Knights of Veda</div><div data-endpoint="/api/game/au2-mobile" data-iszone="false" data-listzone="null">AU2 Mobile</div><div data-endpoint="/api/game/advent-of-godlegends" data-iszone="true" data-listzone="/api/game/get-zone/advent-of-godlegends">Advent of God:Legends</div><div data-endpoint="/api/game/aether-gazer" data-iszone="false" data-listzone="null">Aether Gazer</div><div data-endpoint="/api/game/among-heroes-fantasy-samkok" data-iszone="true" data-listzone="/api/game/get-zone/among-heroes-fantasy-samkok">Among Heroes: Fantasy Samkok</div><div data-endpoint="/api/game/arena-breakout" data-iszone="false" data-listzone="null">Arena Breakout</div><div data-endpoint="/api/game/arena-mania-magic-heroes" data-iszone="true" data-listzone="/api/game/get-zone/arena-mania-magic-heroes">Arena Mania: Magic Heroes</div><div data-endpoint="/api/game/arena-of-valor" data-iszone="false" data-listzone="null">Arena of Valor</div><div data-endpoint="/api/game/asphalt-9-legends" data-iszone="true" data-listzone="/api/game/get-zone/asphalt-9-legends">Asphalt 9: Legends</div><div data-endpoint="/api/game/astral-guardians-cyber-fantasy" data-iszone="true" data-listzone="/api/game/get-zone/astral-guardians-cyber-fantasy">Astral Guardians: Cyber Fantasy</div><div data-endpoint="/api/game/auto-chess" data-iszone="false" data-listzone="null">Auto Chess </div><div data-endpoint="/api/game/azur-lane" data-iszone="true" data-listzone="/api/game/get-zone/azur-lane">Azur Lane</div><div data-endpoint="/api/game/barbarq" data-iszone="false" data-listzone="null">BarbarQ</div><div data-endpoint="/api/game/basketrio" data-iszone="true" data-listzone="/api/game/get-zone/basketrio">Basketrio</div><div data-endpoint="/api/game/be-the-king-judge-destiny" data-iszone="true" data-listzone="/api/game/get-zone/be-the-king-judge-destiny">Be The King: Judge Destiny</div><div data-endpoint="/api/game/Bilibili-dg" data-iszone="false" data-listzone="null">Bilibili (DG)</div><div data-endpoint="/api/game/blood-strike" data-iszone="true" data-listzone="/api/game/get-zone/blood-strike">Blood Strike</div><div data-endpoint="/api/game/colorbang" data-iszone="false" data-listzone="null">COLORBANG</div><div data-endpoint="/api/game/call-of-duty-mobile" data-iszone="false" data-listzone="null">Call of Duty Mobile</div><div data-endpoint="/api/game/captain-tsubasa-dream-team" data-iszone="false" data-listzone="null">Captain Tsubasa: Dream Team</div><div data-endpoint="/api/game/chamet" data-iszone="false" data-listzone="null">Chamet</div><div data-endpoint="/api/game/city-of-crime-gang-wars" data-iszone="false" data-listzone="null">City of Crime: Gang Wars</div><div data-endpoint="/api/game/cloud-song-saga-of-skywalkers" data-iszone="false" data-listzone="null">Cloud Song: Saga of Skywalkers</div><div data-endpoint="/api/game/cooking-adventure" data-iszone="false" data-listzone="null">Cooking Adventure</div><div data-endpoint="/api/game/crasher-origin" data-iszone="true" data-listzone="/api/game/get-zone/crasher-origin">Crasher Origin</div><div data-endpoint="/api/game/crisis-action" data-iszone="true" data-listzone="/api/game/get-zone/crisis-action">Crisis Action</div><div data-endpoint="/api/game/culinary-tour" data-iszone="true" data-listzone="/api/game/get-zone/culinary-tour">Culinary Tour</div><div data-endpoint="/api/game/dead-target-zombie-games-3d" data-iszone="false" data-listzone="null">DEAD TARGET: Zombie Games 3D</div><div data-endpoint="/api/game/dg-mini-games-dg" data-iszone="false" data-listzone="null">DG Mini Games (DG)</div><div data-endpoint="/api/game/dg-rings-dg" data-iszone="false" data-listzone="null">DG Rings (DG)</div><div data-endpoint="/api/game/dark-continent-mist" data-iszone="true" data-listzone="/api/game/get-zone/dark-continent-mist">Dark Continent: Mist</div><div data-endpoint="/api/game/data-package-free-fire-dg" data-iszone="false" data-listzone="null">Data Package Free Fire (DG)</div><div data-endpoint="/api/game/data-package-mobile-legends-dg" data-iszone="false" data-listzone="null">Data Package Mobile Legends (DG)</div><div data-endpoint="/api/game/diablo-immortal" data-iszone="false" data-listzone="null">Diablo: Immortal</div><div data-endpoint="/api/game/disney-magic-kingdoms" data-iszone="false" data-listzone="null">Disney Magic Kingdoms</div><div data-endpoint="/api/game/domino-qiuqiu-topfun" data-iszone="false" data-listzone="null">Domino QiuQiu TopFun</div><div data-endpoint="/api/game/dragon-city" data-iszone="false" data-listzone="null">Dragon City</div><div data-endpoint="/api/game/dragon-raja" data-iszone="false" data-listzone="null">Dragon Raja</div><div data-endpoint="/api/game/dynastones-dg" data-iszone="false" data-listzone="null">Dynastones (DG)</div><div data-endpoint="/api/game/ea-sports-fc-mobile" data-iszone="false" data-listzone="null">EA SPORTS FC Mobile</div><div data-endpoint="/api/game/eggy-party" data-iszone="true" data-listzone="/api/game/get-zone/eggy-party">EGGY PARTY</div><div data-endpoint="/api/game/echocalypse" data-iszone="true" data-listzone="/api/game/get-zone/echocalypse">Echocalypse</div><div data-endpoint="/api/game/eggy_party-dg" data-iszone="true" data-listzone="/api/game/get-zone/eggy_party-dg">Eggy Party (DG)</div><div data-endpoint="/api/game/elemental-titans-3d-idle-arena" data-iszone="false" data-listzone="/api/game/get-zone/elemental-titans-3d-idle-arena">Elemental Titans: 3D Idle Arena</div><div data-endpoint="/api/game/embers-last-duel" data-iszone="false" data-listzone="null">Embers: Last Duel</div><div data-endpoint="/api/game/entropy-2099" data-iszone="false" data-listzone="null">Entropy 2099</div><div data-endpoint="/api/game/era-of-celestials" data-iszone="true" data-listzone="/api/game/get-zone/era-of-celestials">Era of Celestials</div><div data-endpoint="/api/game/farming-simulator-25" data-iszone="false" data-listzone="null">Farming Simulator 25</div><div data-endpoint="/api/game/food-fantasy-crystal" data-iszone="false" data-listzone="null">Food Fantasy Crystal</div><div data-endpoint="/api/game/football-master-2" data-iszone="false" data-listzone="null">Football Master 2</div><div data-endpoint="/api/game/football-master-2-dg" data-iszone="false" data-listzone="null">Football Master 2 (DG)</div><div data-endpoint="/api/game/forsakenworld-2" data-iszone="false" data-listzone="null">ForsakenWorld 2</div><div data-endpoint="/api/game/fortnite-dg" data-iszone="false" data-listzone="null">Fortnite (DG)</div><div data-endpoint="/api/game/fortnite-replicate-dg" data-iszone="false" data-listzone="null">Fortnite (DG)</div><div data-endpoint="/api/game/free-fire" data-iszone="false" data-listzone="null">Free Fire</div><div data-endpoint="/api/game/free-fire-max" data-iszone="false" data-listzone="null">Free Fire MAX</div><div data-endpoint="/api/game/game-speed-up-bundling-dg" data-iszone="false" data-listzone="null">Game Speed Up Bundling (DG)</div><div data-endpoint="/api/game/gamemax-cod-warzone-dg" data-iszone="false" data-listzone="null">GameMax COD Warzone  (DG)</div><div data-endpoint="/api/game/gameqoo_bundling-dg" data-iszone="false" data-listzone="null">GameQoo Bundling (DG)</div><div data-endpoint="/api/game/gamesmax-booster-dg" data-iszone="false" data-listzone="null">GamesMax (DG)</div><div data-endpoint="/api/game/genshin-impact" data-iszone="true" data-listzone="/api/game/get-zone/genshin-impact">Genshin Impact</div><div data-endpoint="/api/game/ghost-story-love-destiny" data-iszone="false" data-listzone="null">Ghost Story: Love Destiny</div><div data-endpoint="/api/game/paket-google-play-pass-dg" data-iszone="false" data-listzone="null">Google Play Pass (DG)</div><div data-endpoint="/api/game/google-playpass-ketengan-dg" data-iszone="false" data-listzone="null">Google Playpass Ketengan (DG)</div><div data-endpoint="/api/game/growtopia" data-iszone="false" data-listzone="null">Growtopia</div><div data-endpoint="/api/game/hago" data-iszone="false" data-listzone="null">Hago</div><div data-endpoint="/api/game/harry-potter-magic-awakened" data-iszone="true" data-listzone="/api/game/get-zone/harry-potter-magic-awakened">Harry Potter: Magic Awakened</div><div data-endpoint="/api/game/heaven-burns-red" data-iszone="false" data-listzone="null">Heaven Burns Red</div><div data-endpoint="/api/game/heroes-evolved" data-iszone="true" data-listzone="/api/game/get-zone/heroes-evolved">Heroes Evolved</div><div data-endpoint="/api/game/heroic-uncle-kim-idle-rpg" data-iszone="false" data-listzone="null">Heroic Uncle Kim: Idle RPG</div><div data-endpoint="/api/game/higgs-domino" data-iszone="false" data-listzone="null">Higgs Domino</div><div data-endpoint="/api/game/honkai-impact-3" data-iszone="false" data-listzone="null">Honkai Impact 3</div><div data-endpoint="/api/game/honkai-star-rail" data-iszone="true" data-listzone="/api/game/get-zone/honkai-star-rail">Honkai: Star Rail</div><div data-endpoint="/api/game/honor-of-kings" data-iszone="false" data-listzone="null">Honor of Kings</div><div data-endpoint="/api/game/identity-v" data-iszone="true" data-listzone="/api/game/get-zone/identity-v">Identity V</div><div data-endpoint="/api/game/idle-legends" data-iszone="true" data-listzone="/api/game/get-zone/idle-legends">Idle Legends</div><div data-endpoint="/api/game/idol-party" data-iszone="false" data-listzone="null">Idol Party</div><div data-endpoint="/api/game/indoplay-capsa-domino-qq-poker" data-iszone="false" data-listzone="null">Indoplay - Capsa Domino QQ Poker</div><div data-endpoint="/api/game/invincible-guarding-the-globe" data-iszone="false" data-listzone="null">Invincible: Guarding the Globe</div><div data-endpoint="/api/game/isekai-feast-tales-of-recipes" data-iszone="true" data-listzone="/api/game/get-zone/isekai-feast-tales-of-recipes">Isekai Feast: Tales of Recipes</div><div data-endpoint="/api/game/island-king" data-iszone="false" data-listzone="null">Island King</div><div data-endpoint="/api/game/jade-legends-immortal-realm" data-iszone="true" data-listzone="/api/game/get-zone/jade-legends-immortal-realm">Jade Legends: Immortal Realm </div><div data-endpoint="/api/game/king-of-avalon" data-iszone="false" data-listzone="null">King of Avalon</div><div data-endpoint="/api/game/luxy-domino-and-poker" data-iszone="false" data-listzone="null">LUXY: Domino and Poker</div><div data-endpoint="/api/game/langit-musik-dg" data-iszone="false" data-listzone="null">Langit Musik (DG)</div><div data-endpoint="/api/game/laplace-m" data-iszone="false" data-listzone="null">Laplace M</div><div data-endpoint="/api/game/league-of-legends" data-iszone="false" data-listzone="null">League of Legends</div><div data-endpoint="/api/game/league-of-legends-wild-rift" data-iszone="false" data-listzone="null">League of Legends: Wild Rift</div><div data-endpoint="/api/game/legacy-fate-sacred-and-fearless" data-iszone="true" data-listzone="/api/game/get-zone/legacy-fate-sacred-and-fearless">Legacy Fate: Sacred and Fearless</div><div data-endpoint="/api/game/legend-of-mushroom-rush" data-iszone="true" data-listzone="/api/game/get-zone/legend-of-mushroom-rush">Legend of Mushroom: Rush</div><div data-endpoint="/api/game/legends-of-runeterra" data-iszone="false" data-listzone="null">Legends of Runeterra</div><div data-endpoint="/api/game/life-makeover" data-iszone="false" data-listzone="null">Life Makeover</div><div data-endpoint="/api/game/lifeafter" data-iszone="true" data-listzone="/api/game/get-zone/lifeafter">LifeAfter</div><div data-endpoint="/api/game/life-after-dg" data-iszone="true" data-listzone="/api/game/get-zone/life-after-dg">LifeAfter (DG)</div><div data-endpoint="/api/game/life-after-replicate-dg" data-iszone="true" data-listzone="/api/game/get-zone/life-after-replicate-dg">LifeAfter (DG)</div><div data-endpoint="/api/game/lokapala-dg" data-iszone="false" data-listzone="null">Lokapala (DG)</div><div data-endpoint="/api/game/love-and-deepspace" data-iszone="false" data-listzone="null">Love and Deepspace</div><div data-endpoint="/api/game/ludo-club" data-iszone="false" data-listzone="null">Ludo Club</div><div data-endpoint="/api/game/marvel-duel" data-iszone="false" data-listzone="null">MARVEL Duel</div><div data-endpoint="/api/game/marvel-snap" data-iszone="false" data-listzone="null">MARVEL SNAP</div><div data-endpoint="/api/game/mob-rush" data-iszone="true" data-listzone="null">MOB RUSH</div><div data-endpoint="/api/game/mu-origin-3" data-iszone="false" data-listzone="null">MU ORIGIN 3</div><div data-endpoint="/api/game/mu-origin-2" data-iszone="true" data-listzone="null">MU Origin 2</div><div data-endpoint="/api/game/machina-waking" data-iszone="true" data-listzone="/api/game/get-zone/machina-waking">Machina Waking</div><div data-endpoint="/api/game/magic-chess-go-go" data-iszone="true" data-listzone="null">Magic Chess: Go Go</div><div data-endpoint="/api/game/magnet_majamojo_bundling-dg" data-iszone="false" data-listzone="null">Magnet Majamojo Bundling (DG)</div><div data-endpoint="/api/game/mahjong-soul" data-iszone="false" data-listzone="null">Mahjong Soul</div><div data-endpoint="/api/game/maplestory-m" data-iszone="true" data-listzone="/api/game/get-zone/maplestory-m">MapleStory M</div><div data-endpoint="/api/game/maxstream-dg" data-iszone="false" data-listzone="null">Maxstream (DG)</div><div data-endpoint="/api/game/metal-slug-awakening" data-iszone="false" data-listzone="null">Metal Slug: Awakening</div><div data-endpoint="/api/game/minecraft-dg" data-iszone="false" data-listzone="null">Minecraft (DG)</div><div data-endpoint="/api/game/mirage-perfect-skyline" data-iszone="true" data-listzone="/api/game/get-zone/mirage-perfect-skyline">Mirage: Perfect Skyline</div><div data-endpoint="/api/game/mobile-legends" data-iszone="true" data-listzone="null">Mobile Legends</div><div data-endpoint="/api/game/mobile-legends-adventure" data-iszone="true" data-listzone="null">Mobile Legends: Adventure</div><div data-endpoint="/api/game/modern-combat-5-blackout" data-iszone="false" data-listzone="null">Modern Combat 5: Blackout</div><div data-endpoint="/api/game/modern-strike-online" data-iszone="false" data-listzone="null">Modern Strike Online</div><div data-endpoint="/api/game/monster-saga-evolution" data-iszone="true" data-listzone="/api/game/get-zone/monster-saga-evolution">Monster Saga: Evolution</div><div data-endpoint="/api/game/moonlight-blade-m" data-iszone="false" data-listzone="null">Moonlight Blade M</div><div data-endpoint="/api/game/musicmax-dg" data-iszone="false" data-listzone="null">MusicMax (DG)</div><div data-endpoint="/api/game/mythic-dawn-13-megami" data-iszone="true" data-listzone="/api/game/get-zone/mythic-dawn-13-megami">Mythic Dawn: 13 Megami</div><div data-endpoint="/api/game/octopath-traveler-cotc" data-iszone="true" data-listzone="/api/game/get-zone/octopath-traveler-cotc">OCTOPATH TRAVELER: CotC</div><div data-endpoint="/api/game/one-punch-man-the-strongest" data-iszone="true" data-listzone="null">ONE PUNCH MAN: The Strongest</div><div data-endpoint="/api/game/onmyoji-arena" data-iszone="false" data-listzone="null">Onmyoji Arena</div><div data-endpoint="/api/game/phantasy-star-online-2-new-genesis" data-iszone="false" data-listzone="null">PHANTASY STAR ONLINE 2 NEW GENESIS</div><div data-endpoint="/api/game/path-to-nowhere" data-iszone="false" data-listzone="null">Path to Nowhere</div><div data-endpoint="/api/game/paw-rumble" data-iszone="false" data-listzone="null">Paw Rumble</div><div data-endpoint="/api/game/phantom-blade-executioners" data-iszone="false" data-listzone="null">Phantom Blade: Executioners</div><div data-endpoint="/api/game/pixel-gun-3d" data-iszone="false" data-listzone="null">Pixel Gun 3D</div><div data-endpoint="/api/game/point-blank" data-iszone="false" data-listzone="null">Point Blank</div><div data-endpoint="/api/game/gamesmax-booster-pokemon-unite-dg" data-iszone="false" data-listzone="null">Pokemon Unite (DG)</div><div data-endpoint="/api/game/poppo-live" data-iszone="false" data-listzone="null">Poppo Live</div><div data-endpoint="/api/game/potato-hero-zombie-survival" data-iszone="true" data-listzone="/api/game/get-zone/potato-hero-zombie-survival">Potato Hero: Zombie Survival</div><div data-endpoint="/api/game/punishing-gray-raven" data-iszone="true" data-listzone="/api/game/get-zone/punishing-gray-raven">Punishing: Gray Raven</div><div data-endpoint="/api/game/ragnarok-m-eternal-love-big-cat-coin" data-iszone="true" data-listzone="/api/game/get-zone/ragnarok-m-eternal-love-big-cat-coin">Ragnarok M: Eternal Love Big Cat Coin</div><div data-endpoint="/api/game/raganarok-origin" data-iszone="true" data-listzone="/api/game/get-zone/raganarok-origin">Ragnarok Origin</div><div data-endpoint="/api/game/ragnarok-x-next-generation" data-iszone="true" data-listzone="/api/game/get-zone/ragnarok-x-next-generation">Ragnarok X: Next Generation</div><div data-endpoint="/api/game/revelation-infinite-journey" data-iszone="false" data-listzone="null">Revelation: Infinite Journey</div><div data-endpoint="/api/game/roblox-voucher-dg" data-iszone="false" data-listzone="null">Roblox (DG)</div><div data-endpoint="/api/game/roblox-gift-cards" data-iszone="false" data-listzone="null">Roblox Gift Cards</div><div data-endpoint="/api/game/saint-seiya-awakening" data-iszone="true" data-listzone="/api/game/get-zone/saint-seiya-awakening">Saint Seiya: Awakening</div><div data-endpoint="/api/game/sausage-man" data-iszone="false" data-listzone="null">Sausage Man</div><div data-endpoint="/api/game/scroll-of-onmyoji-sakura-and-sword" data-iszone="true" data-listzone="/api/game/get-zone/scroll-of-onmyoji-sakura-and-sword">Scroll of Onmyoji: Sakura &amp; Sword</div><div data-endpoint="/api/game/shining-nikki" data-iszone="false" data-listzone="null">Shining Nikki</div><div data-endpoint="/api/game/sky-children-of-the-light" data-iszone="false" data-listzone="null">Sky: Children of the Light</div><div data-endpoint="/api/game/speed-drifters" data-iszone="false" data-listzone="null">Speed Drifters</div><div data-endpoint="/api/game/state-of-survival" data-iszone="false" data-listzone="null">State of Survival</div><div data-endpoint="/api/game/steam-wallet-code-indonesia" data-iszone="false" data-listzone="null">Steam Wallet Code - Indonesia</div><div data-endpoint="/api/game/stumble-guys" data-iszone="false" data-listzone="null">Stumble Guys</div><div data-endpoint="/api/game/super-sus" data-iszone="false" data-listzone="null">Super Sus</div><div data-endpoint="/api/game/tamashi-rise-of-yokai" data-iszone="true" data-listzone="/api/game/get-zone/tamashi-rise-of-yokai">Tamashi: Rise of Yokai</div><div data-endpoint="/api/game/teamfight-tactics-mobile" data-iszone="false" data-listzone="null">Teamfight Tactics Mobile</div><div data-endpoint="/api/game/teen-patti-gold" data-iszone="false" data-listzone="null">Teen Patti Gold</div><div data-endpoint="/api/game/the-lord-of-the-rings-rise-to-war" data-iszone="true" data-listzone="/api/game/get-zone/the-lord-of-the-rings-rise-to-war">The Lord of the Rings: Rise to War</div><div data-endpoint="/api/game/the-return-of-condor-heroes" data-iszone="true" data-listzone="/api/game/get-zone/the-return-of-condor-heroes">The Return of Condor Heroes</div><div data-endpoint="/api/game/thetan-arena" data-iszone="false" data-listzone="null">Thetan Arena</div><div data-endpoint="/api/game/time-raiders" data-iszone="true" data-listzone="/api/game/get-zone/time-raiders">Time Raiders</div><div data-endpoint="/api/game/tinder-dg" data-iszone="false" data-listzone="null">Tinder (DG)</div><div data-endpoint="/api/game/tom-and-jerry-chase" data-iszone="true" data-listzone="/api/game/get-zone/tom-and-jerry-chase">Tom and Jerry: Chase</div><div data-endpoint="/api/game/top-eleven" data-iszone="false" data-listzone="null">Top Eleven</div><div data-endpoint="/api/game/angel-squad-dg" data-iszone="false" data-listzone="null">Top Up Angel Squad (DG)</div><div data-endpoint="/api/game/aov-dg" data-iszone="false" data-listzone="null">Top Up AoV (DG)</div><div data-endpoint="/api/game/atlantica-online-dg" data-iszone="false" data-listzone="null">Top Up Atlantica Online (DG)</div><div data-endpoint="/api/game/battlenet-dg" data-iszone="false" data-listzone="null">Top Up Battlenet (DG)</div><div data-endpoint="/api/game/bleach-mobile-3d-dg" data-iszone="true" data-listzone="/api/game/get-zone/bleach-mobile-3d-dg">Top Up Bleach Mobile 3D (DG)</div><div data-endpoint="/api/game/blizzard-gift-card-dg" data-iszone="false" data-listzone="null">Top Up Blizzard Gift Card (DG)</div><div data-endpoint="/api/game/blood-strike-dg" data-iszone="true" data-listzone="/api/game/get-zone/blood-strike-dg">Top Up Blood Strike (DG)</div><div data-endpoint="/api/game/boxing-star-dg" data-iszone="false" data-listzone="null">Top Up Boxing Star (DG)</div><div data-endpoint="/api/game/call-of-duty-mobile-dg" data-iszone="false" data-listzone="null">Top Up Call of Duty Mobile (DG)</div><div data-endpoint="/api/game/dragon-raja-dg" data-iszone="false" data-listzone="null">Top Up Dragon Raja (DG)</div><div data-endpoint="/api/game/dreadout-dg" data-iszone="false" data-listzone="null">Top Up DreadOut (DG)</div><div data-endpoint="/api/game/ea-sports-fc-mobile-dg" data-iszone="false" data-listzone="null">Top Up EA Sports FC Mobile (DG)</div><div data-endpoint="/api/game/echocalypse-dg" data-iszone="true" data-listzone="/api/game/get-zone/echocalypse-dg">Top Up Echocalypse (DG)</div><div data-endpoint="/api/game/freefire-dg" data-iszone="false" data-listzone="null">Top Up Free Fire (FF) (DG)</div><div data-endpoint="/api/game/game-speed-up-dg" data-iszone="false" data-listzone="null">Top Up Game Speed Up (DG)</div><div data-endpoint="/api/game/gamesmax-booster-dg-rings-dg" data-iszone="false" data-listzone="null">Top Up GamesMAX Booster DG Rings (DG)</div><div data-endpoint="/api/game/garena-dg" data-iszone="false" data-listzone="null">Top Up Garena Shells (DG)</div><div data-endpoint="/api/game/garuda-eleven-dg" data-iszone="false" data-listzone="null">Top Up Garuda Eleven (DG)</div><div data-endpoint="/api/game/genshin-crystal-dg" data-iszone="true" data-listzone="/api/game/get-zone/genshin-crystal-dg">Top Up Genshin Impact (DG)</div><div data-endpoint="/api/game/gods-of-myth-dg" data-iszone="false" data-listzone="null">Top Up Gods of Myth (DG)</div><div data-endpoint="/api/game/google-play-dg" data-iszone="false" data-listzone="null">Top Up Google Play (DG)</div><div data-endpoint="/api/game/growtopia-dg" data-iszone="false" data-listzone="null">Top Up Growtopia (DG)</div><div data-endpoint="/api/game/honor-of-kings-e-wallet-dg" data-iszone="false" data-listzone="null">Top Up HOK E-wallet (DG)</div><div data-endpoint="/api/game/harry-potter-magic-awakened-dg" data-iszone="true" data-listzone="/api/game/get-zone/harry-potter-magic-awakened-dg">Top Up Harry Potter Magic Awakened (DG)</div><div data-endpoint="/api/game/heroes-evolved-dg" data-iszone="true" data-listzone="/api/game/get-zone/heroes-evolved-dg">Top Up Heroes Evolved (DG)</div><div data-endpoint="/api/game/heroes-evolved-point-card-dg" data-iszone="false" data-listzone="null">Top Up Heroes Evolved Point Card (DG)</div><div data-endpoint="/api/game/honkai-star-rail-dg" data-iszone="true" data-listzone="/api/game/get-zone/honkai-star-rail-dg">Top Up Honkai Star Rail (DG)</div><div data-endpoint="/api/game/honor-of-kings-dg" data-iszone="false" data-listzone="null">Top Up Honor of Kings (DG)</div><div data-endpoint="/api/game/laplace-mobile-dg" data-iszone="false" data-listzone="null">Top Up Laplace Mobile (DG)</div><div data-endpoint="/api/game/league-of-legends-wild-rift-dg" data-iszone="false" data-listzone="null">Top Up League of Legends : Wild Rift (DG)</div><div data-endpoint="/api/game/lita-dg" data-iszone="false" data-listzone="null">Top Up Lita (DG)</div><div data-endpoint="/api/game/luna-fantasia-dg" data-iszone="false" data-listzone="null">Top Up Luna Fantasia (DG)</div><div data-endpoint="/api/game/mu-origin-3-dg" data-iszone="false" data-listzone="null">Top Up MU Origin 3 (DG)</div><div data-endpoint="/api/game/mi-cash-dg" data-iszone="false" data-listzone="null">Top Up Megaxus (DG)</div><div data-endpoint="/api/game/metal-slug-dg" data-iszone="false" data-listzone="null">Top Up Metal Slug (DG)</div><div data-endpoint="/api/game/mobile-legends-dg" data-iszone="true" data-listzone="null">Top Up Mobile Legends (DG)</div><div data-endpoint="/api/game/netease-pay-dg" data-iszone="false" data-listzone="null">Top Up NetEase Pay (DG)</div><div data-endpoint="/api/game/nintendo-membership-dg" data-iszone="false" data-listzone="null">Top Up Nintendo Membership (DG)</div><div data-endpoint="/api/game/one-punch-man-dg" data-iszone="true" data-listzone="null">Top Up One Punch Man : The Strongest (DG)</div><div data-endpoint="/api/game/pubg-mobile-dg" data-iszone="true" data-listzone="null">Top Up PUBG Mobile (DG)</div><div data-endpoint="/api/game/paw-rumble-dg" data-iszone="false" data-listzone="null">Top Up Paw Rumble (DG)</div><div data-endpoint="/api/game/perfect-world-dg" data-iszone="true" data-listzone="/api/game/get-zone/perfect-world-dg">Top Up Perfect World (DG)</div><div data-endpoint="/api/game/point-blank-dg" data-iszone="false" data-listzone="null">Top Up Point Blank (DG)</div><div data-endpoint="/api/game/rf-classic-dg" data-iszone="true" data-listzone="/api/game/get-zone/rf-classic-dg">Top Up RF Classic (DG)</div><div data-endpoint="/api/game/rf-remastered-dg" data-iszone="true" data-listzone="/api/game/get-zone/rf-remastered-dg">Top Up RF Remastered (DG)</div><div data-endpoint="/api/game/ragnarok-origin-dg" data-iszone="true" data-listzone="/api/game/get-zone/ragnarok-origin-dg">Top Up Ragnarok Origin (DG)</div><div data-endpoint="/api/game/ragnarok-retro-dg" data-iszone="false" data-listzone="null">Top Up Ragnarok Retro (DG)</div><div data-endpoint="/api/game/razer-gold-dg" data-iszone="false" data-listzone="null">Top Up Razer Gold (DG)</div><div data-endpoint="/api/game/revelation-mobile-dg" data-iszone="false" data-listzone="null">Top Up Revelation Mobile (DG)</div><div data-endpoint="/api/game/sausage-man-dg" data-iszone="false" data-listzone="null">Top Up Sausage Man (DG)</div><div data-endpoint="/api/game/speed-drifters-dg" data-iszone="false" data-listzone="null">Top Up Speed Drifters (DG)</div><div data-endpoint="/api/game/state-of-survival-dg" data-iszone="false" data-listzone="null">Top Up State of Survival (DG)</div><div data-endpoint="/api/game/voucher-steam-dg" data-iszone="false" data-listzone="null">Top Up Steam (DG)</div><div data-endpoint="/api/game/super-sus-dg" data-iszone="false" data-listzone="null">Top Up Super Sus (DG)</div><div data-endpoint="/api/game/the-legend-of-neverland-dg" data-iszone="false" data-listzone="null">Top Up The Legend of Neverland (DG)</div><div data-endpoint="/api/game/tom-and-jerry-chase-dg" data-iszone="true" data-listzone="/api/game/get-zone/tom-and-jerry-chase-dg">Top Up Tom and Jerry : Chase (DG)</div><div data-endpoint="/api/game/uncharted-waters-origin-dg" data-iszone="false" data-listzone="null">Top Up Uncharted Waters Origin (DG)</div><div data-endpoint="/api/game/undawn-dg" data-iszone="false" data-listzone="null">Top Up Undawn (DG)</div><div data-endpoint="/api/game/unipin-dg" data-iszone="false" data-listzone="null">Top Up Unipin Credits (DG)</div><div data-endpoint="/api/game/pubg-mobile-voucher-dg" data-iszone="false" data-listzone="null">Top Up Voucher PUBG Mobile (DG)</div><div data-endpoint="/api/game/xbox-live-dg" data-iszone="false" data-listzone="null">Top Up XBOX Live Gift Card (DG)</div><div data-endpoint="/api/game/two-point-museum" data-iszone="false" data-listzone="null">Two Point Museum</div><div data-endpoint="/api/game/umamusume-pretty-derby-party-dash" data-iszone="false" data-listzone="null">Umamusume: Pretty Derby - Party Dash</div><div data-endpoint="/api/game/undawn" data-iszone="false" data-listzone="null">Undawn</div><div data-endpoint="/api/game/valorant" data-iszone="false" data-listzone="null">VALORANT</div><div data-endpoint="/api/game/vidio-dg" data-iszone="false" data-listzone="null">Vidio (DG)</div><div data-endpoint="/api/game/visionplus-dg" data-iszone="false" data-listzone="null">Vision+ (DG)</div><div data-endpoint="/api/game/viu-dg" data-iszone="false" data-listzone="null">Viu (DG)</div><div data-endpoint="/api/game/voucher-point-blank-dg" data-iszone="false" data-listzone="null">Voucher Point Blank (DG)</div><div data-endpoint="/api/game/war-planet-online" data-iszone="false" data-listzone="null">War Planet Online</div><div data-endpoint="/api/game/watcher-of-realms" data-iszone="true" data-listzone="null">Watcher of Realms</div><div data-endpoint="/api/game/wetv-dg" data-iszone="false" data-listzone="null">WeTV (DG)</div><div data-endpoint="/api/game/westward-adventure" data-iszone="false" data-listzone="null">Westward Adventure</div><div data-endpoint="/api/game/whisper-of-shadow" data-iszone="false" data-listzone="null">Whisper of Shadow</div><div data-endpoint="/api/game/wild-hunter-goddess" data-iszone="true" data-listzone="/api/game/get-zone/wild-hunter-goddess">Wild Hunter: Goddess</div><div data-endpoint="/api/game/world-war-heroes" data-iszone="false" data-listzone="null">World War Heroes</div><div data-endpoint="/api/game/ys-6-mobile-vng" data-iszone="false" data-listzone="null">YS 6 Mobile VNG</div><div data-endpoint="/api/game/yong-heroes" data-iszone="true" data-listzone="/api/game/get-zone/yong-heroes">Yong Heroes</div><div data-endpoint="/api/game/zepeto" data-iszone="false" data-listzone="null">ZEPETO</div><div data-endpoint="/api/game/zenless-zone-zero" data-iszone="true" data-listzone="/api/game/get-zone/zenless-zone-zero">Zenless Zone Zero</div><div data-endpoint="/api/game/test1" data-iszone="false" data-listzone="null"></div><div data-endpoint="/api/game/test8" data-iszone="false" data-listzone="null"></div><div data-endpoint="/api/game/test106" data-iszone="false" data-listzone="null"></div></div>
-                    </div>
+                    <label for="game">Pilih Game</label>
+                    <select id="game-select" class="game-select">
+                        <option value="">-- Pilih Game --</option>
+                        <!-- Game akan diisi oleh JavaScript -->
+                    </select>
                 </div>
+                
                 <div class="form-group">
                     <label for="id">ID Game</label>
-                    <div class="input-container">
-                        <input type="text" name="id" id="id" placeholder="Masukkan ID Game">
-                        <button type="button" class="clear-btn" onclick="clearInput('id')">×</button>
-                    </div>
+                    <input type="text" id="id" placeholder="Masukkan ID Game" required>
                 </div>
-                <div class="form-group" id="zone-form"></div>
-                <button type="submit" class="submit-btn" id="submitBtn">Cek</button>
+                
+                <div class="form-group" id="zone-group" style="display: none;">
+                    <label for="zone">Server/Zone (Opsional)</label>
+                    <input type="text" id="zone" placeholder="Masukkan Zone ID">
+                </div>
+                
+                <button type="submit" class="submit-btn">Cek ID</button>
             </form>
         </div>
 
         <div class="card" id="resultContainer" style="display: none;">
-            <h3><i class="material-icons">search</i> Hasil Pencarian</h3>
-            <p>Username: <span id="result-username">-</span></p>
-            <p>ID Game: <span id="result-id">-</span></p>
-            <p>ID Zona: <span id="result-zone">-</span></p>
-            <button type="button" class="back-btn" id="backButton">Kembali</button>
-        </div>
-    </div>
-
-    <div class="footer">
-        <div class="footer-left">
-            <span>© 2025 Admin</span>
-        </div>
-        <div class="footer-right">
-            <a href="#"><img src="https://api.visitorbadge.io/api/daily?path=https%3A%2F%2Fid-game-validator.vercel.app&amp;label=Kunjungan%20Hari%20Ini&amp;countColor=%234CAF50" target="_blank" alt="Kunjungan Hari Ini" style="font-family: 'Poppins', sans-serif;"></a>
+            <h3><i class="material-icons">search</i> Hasil Validasi</h3>
+            <div id="result-content">
+                <!-- Hasil akan muncul di sini -->
+            </div>
+            <button type="button" class="back-btn" onclick="showForm()">Cek Lagi</button>
         </div>
     </div>
 
     <script>
-        const formContainer = document.getElementById('formContainer');
-        const resultContainer = document.getElementById('resultContainer');
-        const validatorForm = document.getElementById('validatorForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const backButton = document.getElementById('backButton');
-        const gameSearch = document.getElementById('game-search');
-        const gameDropdown = document.getElementById('game-dropdown');
-        const zoneForm = document.getElementById('zone-form');
-        const idInput = document.getElementById('id');
-        const resultUsername = document.getElementById('result-username');
-        const resultId = document.getElementById('result-id');
-        const resultZone = document.getElementById('result-zone');
-        const darkModeToggle = document.getElementById('darkModeToggle');
-
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            document.body.setAttribute('data-theme', savedTheme);
-            darkModeToggle.checked = savedTheme === 'dark';
-        }
-
-        darkModeToggle.addEventListener('change', (event) => {
-            const isChecked = event.target.checked;
-            const theme = isChecked ? 'dark' : 'light';
-            document.body.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-        });
-
-        (async () => {
-            const res = await fetch('/api');
+        // 1. Load daftar game dari API Anda
+        async function loadGames() {
             try {
-                const data = await res.json();
-                data.data.forEach((item) => {
-                    const option = document.createElement('div');
-                    option.textContent = item.name;
-                    option.setAttribute('data-endpoint', item.endpoint);
-                    option.setAttribute('data-isZone', item.hasZoneId);
-                    option.setAttribute('data-listZone', item.listZoneId);
-                    gameDropdown.appendChild(option);
+                const response = await fetch('/api/game');
+                const data = await response.json();
+                
+                const select = document.getElementById('game-select');
+                select.innerHTML = '<option value="">-- Pilih Game --</option>';
+                
+                data.data.forEach(game => {
+                    const option = document.createElement('option');
+                    option.value = game.endpoint;
+                    option.textContent = game.name;
+                    option.setAttribute('data-hasZone', game.hasZoneId);
+                    select.appendChild(option);
                 });
             } catch (error) {
-                console.log(error);
-            }
-        })();
-
-        gameSearch.addEventListener('input', () => {
-            const searchTerm = gameSearch.value.trim().toLowerCase();
-            const options = gameDropdown.querySelectorAll('div');
-            let hasMatches = false;
-
-            options.forEach((option) => {
-                const optionText = option.textContent.toLowerCase();
-                if (optionText.includes(searchTerm)) {
-                    option.style.display = 'block';
-                    hasMatches = true;
-                } else {
-                    option.style.display = 'none';
-                }
-            });
-
-            if (searchTerm !== '' && hasMatches) {
-                gameDropdown.style.display = 'block';
-            } else {
-                gameDropdown.style.display = 'none';
-            }
-        });
-
-        gameDropdown.addEventListener('click', (e) => {
-            if (e.target.tagName === 'DIV' && e.target.style.display !== 'none') {
-                gameSearch.value = e.target.textContent;
-                gameDropdown.style.display = 'none';
-
-                const selectedOption = e.target;
-                const isZone = selectedOption.getAttribute('data-isZone') === 'true';
-                const listZone = selectedOption.getAttribute('data-listZone');
-
-                if (isZone) {
-                    createZoneDropdown(listZone);
-                } else {
-                    zoneForm.innerHTML = '';
-                }
-            }
-        });
-
-        gameSearch.addEventListener('click', () => {
-            gameDropdown.style.display = 'block';
-        });
-
-        document.addEventListener('click', (e) => {
-            if (e.target !== gameSearch && e.target !== gameDropdown) {
-                gameDropdown.style.display = 'none';
-            }
-        });
-
-        function createZoneDropdown(listZone) {
-            zoneForm.innerHTML = '';
-            const zoneLabel = document.createElement('label');
-            zoneLabel.textContent = 'ID Zona';
-            zoneForm.appendChild(zoneLabel);
-
-            const zoneSelectWrapper = document.createElement('div');
-            zoneSelectWrapper.classList.add('select-wrapper');
-
-            if (listZone !== 'null') {
-                const zoneSearchInput = document.createElement('input');
-                zoneSearchInput.type = 'text';
-                zoneSearchInput.id = 'zone-search';
-                zoneSearchInput.placeholder = 'Pilih atau ketik untuk mencari ID Zona';
-                zoneSearchInput.autocomplete = 'off';
-
-                const zoneClearBtn = document.createElement('button');
-                zoneClearBtn.type = 'button';
-                zoneClearBtn.classList.add('zone-search-clear-btn');
-                zoneClearBtn.textContent = '×';
-                zoneClearBtn.onclick = () => clearZoneSearch();
-
-                const zoneDropdown = document.createElement('div');
-                zoneDropdown.id = 'zone-dropdown';
-                zoneDropdown.classList.add('dropdown');
-
-                zoneSelectWrapper.appendChild(zoneSearchInput);
-                zoneSelectWrapper.appendChild(zoneClearBtn);
-                zoneSelectWrapper.appendChild(zoneDropdown);
-                zoneForm.appendChild(zoneSelectWrapper);
-
-                (async () => {
-                    const listZoneRes = await fetch(listZone);
-                    const listZoneData = await listZoneRes.json();
-                    listZoneData.data?.forEach((item) => {
-                        const option = document.createElement('div');
-                        option.textContent = item.name;
-                        option.setAttribute('data-zoneid', item.zoneId);
-                        zoneDropdown.appendChild(option);
-                    });
-                })();
-
-                zoneSearchInput.addEventListener('input', () => {
-                    const searchTerm = zoneSearchInput.value.trim().toLowerCase();
-                    const options = zoneDropdown.querySelectorAll('div');
-
-                    options.forEach((option) => {
-                        const optionText = option.textContent.toLowerCase();
-                        if (optionText.includes(searchTerm)) {
-                            option.style.display = 'block';
-                        } else {
-                            option.style.display = 'none';
-                        }
-                    });
-
-                    if (searchTerm !== '') {
-                        zoneDropdown.style.display = 'block';
-                    } else {
-                        zoneDropdown.style.display = 'none';
-                    }
-                });
-
-                zoneDropdown.addEventListener('click', (e) => {
-                    if (e.target.tagName === 'DIV') {
-                        zoneSearchInput.value = e.target.textContent;
-                        zoneDropdown.style.display = 'none';
-                    }
-                });
-
-                zoneSearchInput.addEventListener('click', () => {
-                    zoneDropdown.style.display = 'block';
-                });
-
-                document.addEventListener('click', (e) => {
-                    if (e.target !== zoneSearchInput && e.target !== zoneDropdown) {
-                        zoneDropdown.style.display = 'none';
-                    }
-                });
-            } else {
-                const zoneInputContainer = document.createElement('div');
-                zoneInputContainer.classList.add('input-container');
-
-                const zoneInput = document.createElement('input');
-                zoneInput.type = 'text';
-                zoneInput.name = 'zone';
-                zoneInput.id = 'zone';
-                zoneInput.placeholder = 'Masukkan ID Zona';
-
-                const zoneClearBtn = document.createElement('button');
-                zoneClearBtn.type = 'button';
-                zoneClearBtn.classList.add('clear-btn');
-                zoneClearBtn.textContent = '×';
-                zoneClearBtn.onclick = () => clearInput('zone');
-
-                zoneInputContainer.appendChild(zoneInput);
-                zoneInputContainer.appendChild(zoneClearBtn);
-
-                zoneForm.appendChild(zoneInputContainer);
+                console.error('Gagal load game:', error);
             }
         }
-
-        function clearZoneSearch() {
-            const zoneSearchInput = document.querySelector('#zone-search');
-            const zoneDropdown = document.querySelector('#zone-dropdown');
-            zoneSearchInput.value = '';
-            zoneDropdown.style.display = 'none';
-            document.querySelector('.zone-search-clear-btn').style.display = 'none';
-
-            const options = zoneDropdown.querySelectorAll('div');
-            options.forEach((option) => {
-                option.style.display = 'block';
-            });
-        }
-
-        function clearInput(inputId) {
-            document.getElementById(inputId).value = '';
-            if (inputId === 'id') {
-                document.querySelector('#id + .clear-btn').style.display = 'none';
-            } else if (inputId === 'zone') {
-                document.querySelector('#zone + .clear-btn').style.display = 'none';
-            }
-        }
-
-        function clearGameSearch() {
-            gameSearch.value = '';
-            gameDropdown.style.display = 'none';
-            zoneForm.innerHTML = '';
-            document.querySelector('.game-search-clear-btn').style.display = 'none';
-
-            const options = gameDropdown.querySelectorAll('div');
-            options.forEach((option) => {
-                option.style.display = 'block';
-            });
-        }
-
-        validatorForm.addEventListener('submit', async (e) => {
+        
+        // 2. Tampilkan field zone jika game membutuhkan
+        document.getElementById('game-select').addEventListener('change', function() {
+            const selected = this.options[this.selectedIndex];
+            const hasZone = selected.getAttribute('data-hasZone') === 'true';
+            document.getElementById('zone-group').style.display = hasZone ? 'block' : 'none';
+        });
+        
+        // 3. Handle form submission
+        document.getElementById('validatorForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-
-            if (gameSearch.value.trim() === '') {
-                alert('Cari Game diperlukan');
+            
+            const gameSelect = document.getElementById('game-select');
+            const gameEndpoint = gameSelect.value;
+            const gameName = gameSelect.options[gameSelect.selectedIndex].textContent;
+            const id = document.getElementById('id').value;
+            const zone = document.getElementById('zone').value;
+            
+            if (!gameEndpoint) {
+                alert('Pilih game dulu!');
                 return;
             }
-
-            const selectedOption = Array.from(gameDropdown.querySelectorAll('div')).find(
-                (option) => option.textContent === gameSearch.value
-            );
-
-            if (!selectedOption) {
-                alert('Cari Game yang valid dari daftar');
+            
+            if (!id) {
+                alert('Masukkan ID game!');
                 return;
             }
-
-            const hasZone = selectedOption.getAttribute('data-isZone') === 'true';
-            let zoneValue = '';
-
-            if (hasZone) {
-                const zoneSearchInput = document.querySelector('#zone-search');
-                if (zoneSearchInput) {
-                    zoneValue = zoneSearchInput.value.trim();
-                    const selectedZone = Array.from(document.querySelectorAll('#zone-dropdown div')).find(
-                        (option) => option.textContent === zoneValue
-                    );
-                    if (selectedZone) {
-                        zoneValue = selectedZone.getAttribute('data-zoneid');
-                    } else {
-                        zoneValue = '';
-                    }
-                } else {
-                    zoneValue = document.querySelector('#zone')?.value || '';
-                }
-            }
-
-            if (idInput.value.trim() === '' && hasZone && zoneValue === '') {
-                alert('ID Game dan ID Zona diperlukan');
-                return;
-            } else if (idInput.value.trim() === '') {
-                alert('ID Game diperlukan');
-                return;
-            } else if (hasZone && zoneValue === '') {
-                alert('ID Zona diperlukan');
-                return;
-            }
-
-            submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            submitBtn.setAttribute('disabled', 'disabled');
-            submitBtn.innerHTML = `<span class="loading-spinner"></span> Memuat...`;
-
+            
+            // Tampilkan loading
+            const btn = document.querySelector('.submit-btn');
+            btn.innerHTML = '<span class="loading-spinner"></span> Memproses...';
+            btn.disabled = true;
+            
             try {
-                const res = await fetch(
-                    `${selectedOption.getAttribute('data-endpoint')}?id=${encodeURIComponent(idInput.value)}&zone=${encodeURIComponent(zoneValue)}`
-                );
-                const data = await res.json();
-
-                if (data.status) {
-                    resultUsername.textContent = data.data?.username || '-';
-                    resultId.textContent = data.data?.user_id || '-';
-                    resultZone.textContent = data.data?.zone_id || '-';
-                } else {
-                    resultContainer.innerHTML = `
-                        <h3><i class="material-icons">error_outline</i> Hasil Pencarian</h3>
-                        <p>${data.message || 'Data tidak ditemukan'}</p>
-                        <button type="button" class="back-btn" id="backButton">Kembali</button>
-                    `;
-                }
-
-                formContainer.classList.add('hidden');
-                resultContainer.style.display = 'block';
+                // Panggil API validasi Anda
+                const url = `${gameEndpoint}?id=${encodeURIComponent(id)}${zone ? '&zone=' + encodeURIComponent(zone) : ''}`;
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                // Tampilkan hasil
+                showResult(result, gameName, id, zone);
             } catch (error) {
-                console.error('Terjadi kesalahan:', error);
-                resultContainer.innerHTML = `
-                    <h3><i class="material-icons">error_outline</i> Error</h3>
-                    <p>Terjadi kesalahan saat memproses permintaan. Silakan coba lagi.</p>
-                    <button type="button" class="back-btn" id="backButton">Kembali</button>
+                document.getElementById('result-content').innerHTML = `
+                    <div class="error-message">
+                        <i class="material-icons">error</i>
+                        <p>Error: ${error.message}</p>
+                    </div>
                 `;
-                formContainer.classList.add('hidden');
-                resultContainer.style.display = 'block';
+                showResultCard();
             } finally {
-                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                submitBtn.removeAttribute('disabled');
-                submitBtn.textContent = 'Cek';
+                btn.textContent = 'Cek ID';
+                btn.disabled = false;
             }
         });
-
-        document.addEventListener('click', function(e) {
-            if (e.target && e.target.id === 'backButton') {
-                resultContainer.style.display = 'none';
-                formContainer.classList.remove('hidden');
+        
+        // 4. Tampilkan hasil
+        function showResult(result, gameName, id, zone) {
+            const content = document.getElementById('result-content');
+            
+            if (result.status) {
+                content.innerHTML = `
+                    <div class="success-result">
+                        <p><strong>Game:</strong> ${gameName}</p>
+                        <p><strong>Username:</strong> ${result.data.username}</p>
+                        <p><strong>ID Game:</strong> ${result.data.user_id}</p>
+                        <p><strong>Zone:</strong> ${result.data.zone_id || '-'}</p>
+                        <p><strong>Status:</strong> <span class="status-valid">Valid ✓</span></p>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="error-result">
+                        <i class="material-icons">warning</i>
+                        <p><strong>Game:</strong> ${gameName}</p>
+                        <p><strong>ID Game:</strong> ${id}</p>
+                        <p><strong>Pesan:</strong> ${result.message || 'ID tidak valid'}</p>
+                        <p><strong>Status:</strong> <span class="status-invalid">Tidak Valid ✗</span></p>
+                    </div>
+                `;
             }
-        });
-
-        document.getElementById('game-search').addEventListener('input', function() {
-            const clearBtn = document.querySelector('.game-search-clear-btn');
-            clearBtn.style.display = this.value.trim() !== '' ? 'block' : 'none';
-        });
-
-        document.getElementById('id').addEventListener('input', function() {
-            const clearBtn = document.querySelector('#id + .clear-btn');
-            clearBtn.style.display = this.value.trim() !== '' ? 'block' : 'none';
-        });
-
-        document.addEventListener('input', function(event) {
-            if (event.target.id === 'zone') {
-                const clearBtn = document.querySelector('#zone + .clear-btn');
-                clearBtn.style.display = event.target.value.trim() !== '' ? 'block' : 'none';
-            }
-        });
-
-        resultContainer.style.display = 'none';
+            
+            showResultCard();
+        }
+        
+        function showResultCard() {
+            document.getElementById('formContainer').style.display = 'none';
+            document.getElementById('resultContainer').style.display = 'block';
+        }
+        
+        function showForm() {
+            document.getElementById('formContainer').style.display = 'block';
+            document.getElementById('resultContainer').style.display = 'none';
+            document.getElementById('id').value = '';
+            document.getElementById('zone').value = '';
+        }
+        
+        // Load game saat halaman terbuka
+        document.addEventListener('DOMContentLoaded', loadGames);
     </script>
-
-</body></html>
-
-
-
+</body>
+</html>
