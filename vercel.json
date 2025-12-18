@@ -1,10 +1,17 @@
 {
   "functions": {
-    "api/game/*.js": {
+    "api/*.js": {
       "maxDuration": 10
     }
   },
   "rewrites": [
-    { "source": "/api/game/:game", "destination": "/api/game/:game.js" }
+    {
+      "source": "/api/game",
+      "destination": "/api/game.js"
+    },
+    {
+      "source": "/api/game/:game",
+      "destination": "/api/game/:game.js"
+    }
   ]
 }
