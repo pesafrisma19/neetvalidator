@@ -1,6 +1,4 @@
 // File: /api/game/mobile-legends.js
-import axios from 'axios';
-
 export default async function handler(req, res) {
   // 1. Atur header untuk JSON
   res.setHeader('Content-Type', 'application/json');
@@ -8,16 +6,15 @@ export default async function handler(req, res) {
   // 2. Ambil parameter dari query string
   const { id, zone } = req.query;
   
-  // 3. Validasi input: ID harus ada dan berupa angka
-  if (!id || !/^\d+$/.test(id)) {
+  // 3. Validasi input
+  if (!id || id.trim() === '') {
     return res.status(200).json({
       code: 400,
       status: false,
-      message: "ID harus diisi dan berupa angka"
+      message: "ID harus diisi"
     });
   }
   
-  // 4. Zone ID wajib untuk Mobile Legends
   if (!zone || zone.trim() === '') {
     return res.status(200).json({
       code: 400,
@@ -26,91 +23,99 @@ export default async function handler(req, res) {
     });
   }
   
-  // 5. Parameter untuk request ke API Dunia Games
-  const params = new URLSearchParams({
-    productId: '1',
-    itemId: '2',
-    catalogId: '57',
-    paymentId: '352',
-    gameId: id,
-    zoneId: zone,  // Gunakan 'zone' dari parameter query
-    product_ref: 'REG',
-    product_ref_denom: 'AE',
-  });
-  
   try {
-    // 6. Kirim request ke API Dunia Games
-    const response = await axios.post(
-      'https://api.duniagames.co.id/api/transaction/v1/top-up/inquiry/store',
-      params.toString(),
+    // 4. Kirim request ke API Mobapay
+    const response = await fetch(
+      `https://api.mobapay.com/api/app_shop?app_id=100000&game_user_key=${encodeURIComponent(id)}&game_server_key=${encodeURIComponent(zone)}&country=ID&language=en`,
       {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Referer': 'https://www.duniagames.co.id/',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
           'Accept': 'application/json',
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+          'x-lang': 'en',
+          'origin': 'https://www.mobapay.com',
+          'referer': 'https://www.mobapay.com/',
         },
         timeout: 10000
       }
     );
     
-    console.log('✅ API DuniaGames MLBB Response:', response.data?.data?.gameDetail);
+    // 5. Parse response JSON
+    const json = await response.json();
     
-    // 7. Ekstrak nickname dari response
-    const nickname = response.data?.data?.gameDetail?.userName;
-    
-    if (nickname) {
-      // ✅ FORMAT RESPONSE YANG BENAR untuk website Anda
-      return res.status(200).json({
-        code: 200,
-        status: true,
-        data: {
-          username: nickname,
-          user_id: id,
-          zone_id: zone,        // Simpan zone yang digunakan
-          game: 'Mobile Legends',
-          server: zone          // Tambahan info server
-        }
-      });
-    } else {
-      return res.status(200).json({
-        code: 404,
-        status: false,
-        message: "Nickname tidak ditemukan untuk ID dan Zone tersebut"
-      });
-    }
-    
-  } catch (error) {
-    // 8. Penanganan error yang baik
-    console.error('💥 Error mengambil data Mobile Legends:', {
-      message: error.message,
-      status: error.response?.status,
-      data: error.response?.data
+    console.log('🔍 Mobapay API Response:', {
+      code: json.code,
+      hasUserInfo: !!json.data?.user_info,
+      username: json.data?.user_info?.user_name
     });
     
-    let errorMessage = "Gagal mengambil data Mobile Legends";
-    let responseCode = 500;
-    
-    if (error.response) {
-      // Server merespon dengan status error
-      responseCode = error.response.status;
+    // 6. Cek jika response valid dan ada username
+    if (json.code === 0 && json.data?.user_info?.code === 0) {
+      const username = json.data.user_info.user_name || '';
       
-      if (error.response.status === 404) {
-        errorMessage = "ID atau Zone Mobile Legends tidak ditemukan";
-      } else if (error.response.status === 400) {
-        errorMessage = "ID atau Zone tidak valid";
-      } else if (error.response.status === 429) {
-        errorMessage = "Terlalu banyak permintaan. Coba lagi nanti";
+      if (username) {
+        // ✅ SUCCESS - Format response sesuai website Anda
+        return res.status(200).json({
+          code: 200,
+          status: true,
+          data: {
+            username: username,
+            user_id: id,
+            zone_id: zone,
+            game: 'Mobile Legends'
+          }
+        });
       } else {
-        errorMessage = `Error ${error.response.status} dari server`;
+        // Username kosong
+        return res.status(200).json({
+          code: 404,
+          status: false,
+          message: "Username tidak ditemukan dalam response"
+        });
       }
-    } else if (error.request) {
-      // Tidak ada response (timeout/network error)
-      errorMessage = "Tidak ada respons dari server (timeout)";
+    }
+    
+    // 7. Handle berbagai error code dari Mobapay
+    let errorMessage = "ID atau Zone tidak valid";
+    
+    if (json.code !== 0) {
+      switch(json.code) {
+        case 1:
+          errorMessage = "Parameter tidak valid";
+          break;
+        case 2:
+          errorMessage = "Game user tidak ditemukan";
+          break;
+        case 3:
+          errorMessage = "Server game tidak ditemukan";
+          break;
+        case 4:
+          errorMessage = "Akses ditolak";
+          break;
+        default:
+          errorMessage = `Error code: ${json.code}`;
+      }
     }
     
     return res.status(200).json({
-      code: responseCode,
+      code: 404,
+      status: false,
+      message: `❌ ${errorMessage}`
+    });
+    
+  } catch (error) {
+    // 8. Penanganan network/timeout error
+    console.error('💥 Error mengambil data Mobile Legends:', error.message);
+    
+    let errorMessage = "Gagal terhubung ke server";
+    if (error.name === 'TimeoutError' || error.code === 'ECONNABORTED') {
+      errorMessage = "Timeout - server tidak merespon";
+    } else if (error.message.includes('fetch failed')) {
+      errorMessage = "Tidak dapat terhubung ke API";
+    }
+    
+    return res.status(200).json({
+      code: 500,
       status: false,
       message: `❌ ${errorMessage}`
     });
