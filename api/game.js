@@ -19,7 +19,7 @@ export default function handler(request, response) {
       "listZoneId": null
     },
     {
-      "name": "Mogic Chess Go Go",
+      "name": "Magic Chess Go Go",
       "endpoint": "/api/game/magic-chess",
       "hasZoneId": true,
       "listZoneId": null
