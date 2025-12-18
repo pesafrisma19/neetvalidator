@@ -1,5 +1,6 @@
 {
-  "name": "neet-validator",
+  "name": "neet-validator-simple",
+  "version": "1.0.0",
   "dependencies": {
     "axios": "^1.6.0"
   }
