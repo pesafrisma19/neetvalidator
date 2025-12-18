@@ -1,4 +1,4 @@
-// File: /api/game/super-sus.js (nama baru)
+// File: /api/game/super-sus.js (VERSI DIPERBAIKI)
 import axios from 'axios';
 
 export default async function handler(req, res) {
@@ -31,10 +31,16 @@ export default async function handler(req, res) {
     const nickname = response?.data?.data?.name;
     
     if (nickname) {
+      // ✅ TAMBAHKAN SEMUA DATA YANG DIBUTUHKAN WEBSITE
       return res.status(200).json({
         code: 200,
         status: true,
-        data: { username: nickname }
+        data: {
+          username: nickname,
+          user_id: id,           // ✅ ID GAME
+          zone_id: zone || '-',  // ✅ ZONE
+          game: 'Super Sus'      // ✅ NAMA GAME
+        }
       });
     } else {
       return res.status(200).json({
