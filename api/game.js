@@ -15,7 +15,7 @@ export default function handler(request, response) {
     {
       "name": "Honor Of Kings",
       "endpoint": "/api/game/honor-of-kings",
-      "hasZoneId": false,
+      "hasZoneId": true,
       "listZoneId": null
     },
     {
