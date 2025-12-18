@@ -1,106 +1,118 @@
+// File: api/game/supersus.js
 import axios from 'axios';
 
+// Variabel untuk caching sederhana (mengurangi request ke API luar)
+const cache = new Map();
+const CACHE_DURATION = 5 * 60 * 1000; // Cache selama 5 menit
+
 export default async function handler(req, res) {
-  // SET HEADER JSON
+  // 1. Atur header response untuk JSON
   res.setHeader('Content-Type', 'application/json');
-  
-  const { id, zone } = req.query;
-  
-  console.log('🔍 Super Sus Validation Request:', { id, zone });
-  
-  // VALIDASI INPUT
-  if (!id || id.trim() === '') {
+
+  const { id } = req.query; // Ambil ID dari query parameter
+  const zone = req.query.zone || '-'; // Zone opsional
+
+  // 2. Validasi input
+  if (!id || !/^\d+$/.test(id)) { // Cek apakah ID hanya berisi angka
     return res.status(400).json({
       status: false,
-      message: "ID wajib diisi"
+      message: "⚠️ ID harus diisi dan berupa angka."
     });
   }
-  
-  // 🎯 **API SUPER SUS YANG BENAR** (berdasarkan research)
+
+  // 3. Cek cache terlebih dahulu (untuk performa)
+  const cacheKey = `supersus:${id}`;
+  const cachedData = cache.get(cacheKey);
+  if (cachedData && (Date.now() - cachedData.timestamp) < CACHE_DURATION) {
+    console.log(`🔄 Mengembalikan data dari cache untuk ID: ${id}`);
+    return res.json(cachedData.data);
+  }
+
+  // 4. Logika utama scraping (sama dengan kode bot Anda)
   try {
-    console.log('🔄 Calling Super Sus API...');
-    
-    // Method 1: Coba endpoint yang lebih umum
-    const response = await axios.get(`https://api.supersus.io/player/${id}`, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        'Accept': 'application/json',
-        'Referer': 'https://supersus.io/'
-      },
-      timeout: 8000
-    });
-    
-    console.log('✅ API Response Status:', response.status);
-    console.log('📦 Response Data:', JSON.stringify(response.data).substring(0, 200));
-    
-    // Cek struktur response
-    let nickname = null;
-    
-    // Coba beberapa kemungkinan struktur data
-    if (response.data?.data?.name) {
-      nickname = response.data.data.name;
-    } else if (response.data?.name) {
-      nickname = response.data.name;
-    } else if (response.data?.username) {
-      nickname = response.data.username;
-    } else if (response.data?.playerName) {
-      nickname = response.data.playerName;
-    }
-    
-    if (nickname) {
-      return res.json({
-        status: true,
-        data: {
-          username: nickname,
-          user_id: id,
-          zone_id: zone || '-',
-          server: 'Super Sus'
-        }
-      });
-    } else {
+    console.log(`🔍 Memulai fetch untuk ID Super Sus: ${id}`);
+
+    const response = await axios.post(
+      `https://webpay-api.supersus.io/api/player/${id}`,
+      {}, // Body kosong, sama seperti kode Anda
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Origin': 'https://webpay.supersus.io',
+          'Referer': 'https://webpay.supersus.io/',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' // User-Agent yang umum
+        },
+        timeout: 10000 // Timeout 10 detik
+      }
+    );
+
+    console.log(`📥 Response diterima untuk ID: ${id}`, response.data);
+
+    // 5. Ekstrak nickname (struktur data: response.data.data.name)
+    const nickname = response?.data?.data?.name;
+
+    if (!nickname) {
+      // Jika tidak ada nickname di response
       return res.json({
         status: false,
-        message: "Nickname tidak ditemukan dalam response",
-        debug: response.data
+        message: "❌ Nickname tidak ditemukan untuk ID tersebut."
       });
     }
-    
-  } catch (error) {
-    console.error('💥 API Error:', {
-      message: error.message,
-      code: error.code,
-      status: error.response?.status,
-      data: error.response?.data
-    });
-    
-    // 🎯 **FALLBACK: PAKAI MOCK DATA DULU**
-    // Biar frontend bisa berjalan, nanti bisa diganti
-    
-    const mockPlayers = {
-      '13471893': 'ProPlayer_SS',
-      '12345678': 'NoobMaster69',
-      '87654321': 'SussyBaka',
-      '999999': 'TestAccount'
+
+    // 6. Format response untuk website validator Anda
+    const result = {
+      status: true,
+      data: {
+        username: nickname,
+        user_id: id,
+        zone_id: zone
+      }
     };
-    
-    if (mockPlayers[id]) {
-      console.log('🎭 Using mock data for ID:', id);
-      return res.json({
-        status: true,
-        data: {
-          username: mockPlayers[id],
-          user_id: id,
-          zone_id: zone || '-',
-          note: 'Mock Data (API sedang maintenance)'
-        }
-      });
+
+    // 7. Simpan ke cache
+    cache.set(cacheKey, {
+      data: result,
+      timestamp: Date.now()
+    });
+
+    // 8. Kirim response sukses
+    return res.json(result);
+
+  } catch (error) {
+    // 9. Penanganan error yang lebih baik
+    console.error(`💥 Error saat fetch ID ${id}:`, {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+      code: error.code
+    });
+
+    let errorMessage = "Gagal mengambil data.";
+    let httpStatus = 500;
+
+    if (error.response) {
+      // Server merespon dengan status error (4xx, 5xx)
+      httpStatus = error.response.status;
+      if (error.response.status === 404) {
+        errorMessage = "ID pemain tidak ditemukan.";
+      } else if (error.response.status === 429) {
+        errorMessage = "Terlalu banyak permintaan. Coba lagi nanti.";
+      } else {
+        // Coba ambil pesan error dari response
+        errorMessage = error.response.data?.message || `Error ${error.response.status} dari server.`;
+      }
+    } else if (error.request) {
+      // Request dibuat tapi tidak ada response (timeout, network error)
+      errorMessage = "Tidak ada respons dari server game (timeout).";
+    } else {
+      // Error lain dalam setup request
+      errorMessage = `Error: ${error.message}`;
     }
-    
-    // Jika mock data juga tidak ada
-    return res.status(500).json({
+
+    // 10. Kirim response error
+    return res.status(httpStatus).json({
       status: false,
-      message: `API Error: ${error.message}`,
-      suggestion: 'Coba ID lain atau hubungi admin'
+      message: `❌ ${errorMessage}`
     });
   }
 }
