@@ -19,9 +19,15 @@ export default function handler(request, response) {
       "listZoneId": null
     },
     {
+      "name": "Blood Strike",
+      "endpoint": "/api/game/blood-strike",
+      "hasZoneId": false,
+      "listZoneId": null
+    },
+    {
       "name": "Eggy Party",
       "endpoint": "/api/game/eggy-party",
-      "hasZoneId": true,
+      "hasZoneId": false,
       "listZoneId": null
     },
     {
