@@ -21,7 +21,7 @@ export default function handler(request, response) {
     {
       "name": "Eggy Party",
       "endpoint": "/api/game/eggy-party",
-      "hasZoneId": false,
+      "hasZoneId": true,
       "listZoneId": null
     },
     {
