@@ -19,6 +19,12 @@ export default function handler(request, response) {
       "listZoneId": null
     },
     {
+      "name": "Eggy Party",
+      "endpoint": "/api/game/eggy-party",
+      "hasZoneId": false,
+      "listZoneId": null
+    },
+    {
       "name": "Mobile Legends",
       "endpoint": "/api/game/mobile-legends",
       "hasZoneId": true,
